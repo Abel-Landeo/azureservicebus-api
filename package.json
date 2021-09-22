@@ -1,0 +1,26 @@
+{
+  "name": "azureservicebus-api",
+  "version": "1.0.0",
+  "description": "Rest API wrapper for azure servicebus",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abel-Landeo/azureservicebus-api.git"
+  },
+  "keywords": [
+    "azure",
+    "servicebus"
+  ],
+  "author": "Abel Landeo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Abel-Landeo/azureservicebus-api/issues"
+  },
+  "homepage": "https://github.com/Abel-Landeo/azureservicebus-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
