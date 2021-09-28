@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-router.post('/publish', (req, res) => {
-    let body = req.body;
-    res.json({
-        status: "Ok",
-        message: body
-    });
-});
+const { postPublish } = require('../controllers/standard');
+
+router.route('/publish').post(postPublish);
 
 module.exports = router;

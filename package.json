@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Abel-Landeo/azureservicebus-api#readme",
   "dependencies": {
+    "@azure/service-bus": "^7.3.0",
     "express": "^4.17.1"
   }
 }
