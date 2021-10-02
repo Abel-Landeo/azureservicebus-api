@@ -16,14 +16,20 @@ Azure servicebus has two main features:
 
 ### API Features:
 
-Do not forget that it starts with the base API `/servicebus`
+Do not forget that it starts with the base API `/servicebus/v1`
 
 - `POST /standard/publish`
 ```json
 {
-    "type": "<queue | topic>",
-    "name": "", // name of the queue or topic
-    "subscription": "", // subscription of the topic
-    "message": {} // Message body to be sent
+    "key1": "val1",
+    "key2": "val2",
+    ...
 }
+```
+- `GET /admin/list`
+Query params:
+```
+"entity": "<queue | topic | subscription | rule>",
+"topic": "<name of the topic in case subscriptions are to list>",
+"subscription": "<name of the subscription in case rules are to list>"
 ```
