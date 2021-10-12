@@ -5,7 +5,9 @@ const getList = async (req, res, next) => {
         let params = req.query;
         let entities = [];
         if (params.entity === 'subscription') {
-            entities = await servicebus.listSubscriptions(params.topic);                                    
+            entities = await servicebus.listSubscriptions();                                    
+        }else if (params.entity === 'rule') {
+            entities = await servicebus.listRules(params.subscription);
         }
 
         res.json({
