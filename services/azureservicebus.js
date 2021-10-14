@@ -39,10 +39,16 @@ const azureservicebus = {
         return returnableMessages;
     },
     
-    listSubscriptions: async () => {
+    listSubscriptions: async (options = {}) => {
         const sbAdmin = new ServiceBusAdministrationClient(connectionString);
         let result = [];
-        let subs = sbAdmin.listSubscriptionsRuntimeProperties(entityName);
+        let subs;
+        if (options.isRuntime) {
+            subs = sbAdmin.listSubscriptionsRuntimeProperties(entityName);
+        } else {
+            subs = sbAdmin.listSubscriptions(entityName);
+        }
+        
         for await (const sub of subs) {
             result.push(sub);            
         }

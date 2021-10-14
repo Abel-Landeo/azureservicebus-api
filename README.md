@@ -39,6 +39,7 @@ Query params:
 - `GET /admin/list`
 Query params:
 ```
+"runtime": <true | false>,
 "entity": "<subscription | rule>",
 "subscription": "<name of the subscription in case rules are to list>"
 ```
