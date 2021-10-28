@@ -36,7 +36,7 @@ Query params:
 "limit": <max to be peeked; if omitted, all messages will be peeked>
 ```
 
-- `GET /admin/list`
+- `GET /admin/entities`
 Query params:
 ```
 "runtime": <true | false>,
@@ -44,4 +44,15 @@ Query params:
 "subscription": "<name of the subscription in case rules are to list>"
 ```
 
+- `POST /admin/entities`
+Create a specific entity (subscription, rule)
+Request body:
+```json
+{
+    "entityType": "subscription | rule",
+    "subscription": "<in case the entityType is rule>",
+    "entityName": "<name of the subscription or rule to be created>",
+    "options": {}
+}
+```
 

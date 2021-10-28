@@ -63,6 +63,20 @@ const azureservicebus = {
             result.push(rule);
         }
         return result;
+    },
+
+    createSubscription: async (name, options) => {
+        options = options || {};
+        const sbAdmin = new ServiceBusAdministrationClient(connectionString);
+        const newSubscription = await sbAdmin.createSubscription(entityName, name, options);
+        return newSubscription;
+    },
+
+    createRule: async (subscription, name, options) => {
+        options = options || {};
+        const sbAdmin = new ServiceBusAdministrationClient(connectionString);
+        const newRule = await sbAdmin.createRule(entityName, subscription, name);
+        return newRule;
     }
 }
 

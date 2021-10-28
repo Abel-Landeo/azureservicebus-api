@@ -1,6 +1,6 @@
 const servicebus = require('../services/azureservicebus');
 
-const getList = async (req, res, next) => {
+const getEntities = async (req, res, next) => {
     try {
         let params = req.query;
         params.runtime = params.runtime || "false";
@@ -14,7 +14,7 @@ const getList = async (req, res, next) => {
         }
 
         res.json({
-            status: "ok",
+            total: entities.length,
             entities: entities
         })        
     } catch (error) {
@@ -23,6 +23,22 @@ const getList = async (req, res, next) => {
     
 }
 
+const postEntities = async (req, res, next) => {
+    try {
+        let request = req.body;
+        let createdEntity = {};
+        if (request.entityType === 'subscription') {
+            createdEntity = await servicebus.createSubscription(request.entityName, request.options);
+        } else if(request.entityType === 'rule') {
+            createdEntity = await servicebus.createRule(request.subscription, request.entityName, request.options );
+        }
+        res.status(201).json(createdEntity);
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
-    getList
+    getEntities,
+    postEntities
 }
