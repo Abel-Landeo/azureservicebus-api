@@ -19,7 +19,10 @@ const getPeek = async (req, res, next) => {
         let params = req.query;
         let limit = parseInt(params.limit, 10);
         const peekedMessages = await servicebus.peek(params.type, params.subscription, params.isdeadletter, limit);
-        res.json(peekedMessages);
+        res.json({
+            "total": peekedMessages.length,
+            result: peekedMessages
+        });
     } catch (error) {
         next(error);
     }
