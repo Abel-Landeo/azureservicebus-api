@@ -32,7 +32,8 @@ const azureservicebus = {
                 messageId: message.messageId,
                 body: message.body,
                 deadLetterReason: message.deadLetterReason,
-                deadLetterErrorDescription: message.deadLetterErrorDescription
+                deadLetterErrorDescription: message.deadLetterErrorDescription,
+                enqueuedTimeUtc: message.enqueuedTimeUtc
             };
             return returnableMessage;            
         });
