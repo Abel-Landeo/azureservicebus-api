@@ -33,6 +33,7 @@ const azureservicebus = {
                 body: message.body,
                 deadLetterReason: message.deadLetterReason,
                 deadLetterErrorDescription: message.deadLetterErrorDescription,
+                enqueuedSequenceNumber: message.enqueuedSequenceNumber,
                 enqueuedTimeUtc: message.enqueuedTimeUtc
             };
             return returnableMessage;            
