@@ -40,6 +40,38 @@ const azureservicebus = {
         });
         return returnableMessages;
     },
+
+    receive: async (type, subscription, isDeadLetter, limit) => {
+        const sbClient = new ServiceBusClient(connectionString);
+        let receiver;
+        let options = isDeadLetter?{subQueueType: "deadLetter"}:{};
+        if (type === 'queue') {
+            receiver = sbClient.createReceiver(entityName, options);            
+        } else if(type === 'topic') {
+            receiver = sbClient.createReceiver(entityName, subscription, options);
+        } else {
+            throw new Error("entity type not especified");
+        }
+        const fetchedMessages = await receiver.receiveMessages(limit)
+
+        let completeP = fetchedMessages.map(m => receiver.completeMessage(m))
+        await Promise.all(completeP)
+
+        await receiver.close();
+        await sbClient.close();
+        const returnableMessages = fetchedMessages.map(message => {
+            const returnableMessage = {
+                messageId: message.messageId,
+                body: message.body,
+                deadLetterReason: message.deadLetterReason,
+                deadLetterErrorDescription: message.deadLetterErrorDescription,
+                enqueuedSequenceNumber: message.enqueuedSequenceNumber,
+                enqueuedTimeUtc: message.enqueuedTimeUtc
+            };
+            return returnableMessage;            
+        });
+        return returnableMessages;
+    },
     
     listSubscriptions: async (options = {}) => {
         const sbAdmin = new ServiceBusAdministrationClient(connectionString);

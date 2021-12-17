@@ -36,6 +36,18 @@ Query params:
 "limit": <max to be peeked; if omitted, all messages will be peeked>
 ```
 
+- `GET /standard/receive`
+
+**Warning: Messages received are actually consumed from the topic/queue**
+
+Query params:
+```
+"type": "<queue | topic>"
+"subscription": "<name of the subscription in case it is a topic>"
+"isdeadletter": <true | false>
+"limit": <max to be fetched; if omitted, all messages will be fetched>
+```
+
 - `GET /admin/entities`
 Query params:
 ```
