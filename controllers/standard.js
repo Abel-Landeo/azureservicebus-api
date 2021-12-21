@@ -18,7 +18,8 @@ const getPeek = async (req, res, next) => {
     try {
         let params = req.query;
         let limit = parseInt(params.limit, 10);
-        const peekedMessages = await servicebus.peek(params.type, params.subscription, params.isdeadletter, limit);
+        let isDeadLetter = params.isdeadletter !== 'false'
+        const peekedMessages = await servicebus.peek(params.type, params.subscription, isDeadLetter, limit);
         res.json({
             "total": peekedMessages.length,
             result: peekedMessages
