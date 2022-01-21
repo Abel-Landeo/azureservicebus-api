@@ -3,7 +3,8 @@ const servicebus = require('../services/azureservicebus');
 const postPublish = async (req, res, next) => {
     try {
         let body = req.body;
-        await servicebus.publish(body);
+        let queryParams = req.query;
+        await servicebus.publish(body, queryParams);
         res.json({
             status: "Ok",
             message: "Message published successfully"

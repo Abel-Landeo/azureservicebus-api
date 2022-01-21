@@ -3,12 +3,11 @@ const { ServiceBusClient, ServiceBusAdministrationClient } = require("@azure/ser
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING;
 const entityName = process.env.SERVICEBUS_ENTITY_NAME;
 const azureservicebus = {
-    publish: async (message) => {
+    publish: async (message, userProperties = {}) => {
         const sbClient = new ServiceBusClient(connectionString);
         const sender = sbClient.createSender(entityName);
-        await sender.sendMessages({
-            body: message
-        });
+        let messageWrapper = {body: message, applicationProperties: userProperties}
+        await sender.sendMessages(messageWrapper);
         await sender.close();
         await sbClient.close();
     },
