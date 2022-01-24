@@ -3,12 +3,11 @@ const { ServiceBusClient, ServiceBusAdministrationClient } = require("@azure/ser
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING;
 const entityName = process.env.SERVICEBUS_ENTITY_NAME;
 const azureservicebus = {
-    publish: async (message) => {
+    publish: async (message, userProperties = {}) => {
         const sbClient = new ServiceBusClient(connectionString);
         const sender = sbClient.createSender(entityName);
-        await sender.sendMessages({
-            body: message
-        });
+        let messageWrapper = {body: message, applicationProperties: userProperties}
+        await sender.sendMessages(messageWrapper);
         await sender.close();
         await sbClient.close();
     },
@@ -32,17 +31,60 @@ const azureservicebus = {
                 messageId: message.messageId,
                 body: message.body,
                 deadLetterReason: message.deadLetterReason,
-                deadLetterErrorDescription: message.deadLetterErrorDescription
+                deadLetterErrorDescription: message.deadLetterErrorDescription,
+                enqueuedSequenceNumber: message.enqueuedSequenceNumber,
+                enqueuedTimeUtc: message.enqueuedTimeUtc,
+                applicationProperties: message.applicationProperties
+            };
+            return returnableMessage;            
+        });
+        return returnableMessages;
+        
+    },
+
+    receive: async (type, subscription, isDeadLetter, limit) => {
+        const sbClient = new ServiceBusClient(connectionString);
+        let receiver;
+        let options = isDeadLetter?{subQueueType: "deadLetter"}:{};
+        if (type === 'queue') {
+            receiver = sbClient.createReceiver(entityName, options);            
+        } else if(type === 'topic') {
+            receiver = sbClient.createReceiver(entityName, subscription, options);
+        } else {
+            throw new Error("entity type not especified");
+        }
+        const fetchedMessages = await receiver.receiveMessages(limit)
+
+        let completeP = fetchedMessages.map(m => receiver.completeMessage(m))
+        await Promise.all(completeP)
+
+        await receiver.close();
+        await sbClient.close();
+        const returnableMessages = fetchedMessages.map(message => {
+            const returnableMessage = {
+                messageId: message.messageId,
+                body: message.body,
+                deadLetterReason: message.deadLetterReason,
+                deadLetterErrorDescription: message.deadLetterErrorDescription,
+                enqueuedSequenceNumber: message.enqueuedSequenceNumber,
+                enqueuedTimeUtc: message.enqueuedTimeUtc,
+                applicationProperties: message.applicationProperties
             };
             return returnableMessage;            
         });
         return returnableMessages;
     },
     
-    listSubscriptions: async () => {
+    listSubscriptions: async (options = {}) => {
         const sbAdmin = new ServiceBusAdministrationClient(connectionString);
         let result = [];
-        let subs = sbAdmin.listSubscriptionsRuntimeProperties(entityName);
+        let subs;
+        if (options.isRuntime) {
+            subs = sbAdmin.listSubscriptionsRuntimeProperties(entityName);
+        } else {
+            subs = sbAdmin.listSubscriptions(entityName);
+        }
+        
         for await (const sub of subs) {
             result.push(sub);            
         }
@@ -57,6 +99,20 @@ const azureservicebus = {
             result.push(rule);
         }
         return result;
+    },
+
+    createSubscription: async (name, options) => {
+        options = options || {};
+        const sbAdmin = new ServiceBusAdministrationClient(connectionString);
+        const newSubscription = await sbAdmin.createSubscription(entityName, name, options);
+        return newSubscription;
+    },
+
+    createRule: async (subscription, name, options) => {
+        options = options || {};
+        const sbAdmin = new ServiceBusAdministrationClient(connectionString);
+        const newRule = await sbAdmin.createRule(entityName, subscription, name);
+        return newRule;
     }
 }
 

@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const { getList } = require('../controllers/admin');
+const { getEntities, postEntities } = require('../controllers/admin');
 
-router.route('/list').get(getList);
+router.route('/entities')
+    .get(getEntities)
+    .post(postEntities);
 
 module.exports = router;

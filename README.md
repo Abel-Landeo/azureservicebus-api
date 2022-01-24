@@ -19,12 +19,21 @@ Azure servicebus has two main features:
 Do not forget that it starts with the base API `/servicebus/v1`
 
 - `POST /standard/publish`
+
+The request body is the message to be published 
 ```json
 {
     "key1": "val1",
     "key2": "val2",
     ...
 }
+```
+
+The query params are used as application or user properties of the message
+```
+"userParameter1": "value1"
+"userParameter2": "value2"
+...
 ```
 
 - `GET /standard/peek`
@@ -36,11 +45,35 @@ Query params:
 "limit": <max to be peeked; if omitted, all messages will be peeked>
 ```
 
-- `GET /admin/list`
+- `GET /standard/receive`
+
+**Warning: Messages received are actually consumed from the topic/queue**
+
 Query params:
 ```
+"type": "<queue | topic>"
+"subscription": "<name of the subscription in case it is a topic>"
+"isdeadletter": <true | false>
+"limit": <max to be fetched; if omitted, all messages will be fetched>
+```
+
+- `GET /admin/entities`
+Query params:
+```
+"runtime": <true | false>,
 "entity": "<subscription | rule>",
 "subscription": "<name of the subscription in case rules are to list>"
 ```
 
+- `POST /admin/entities`
+Create a specific entity (subscription, rule)
+Request body:
+```json
+{
+    "entityType": "subscription | rule",
+    "subscription": "<in case the entityType is rule>",
+    "entityName": "<name of the subscription or rule to be created>",
+    "options": {}
+}
+```
 
