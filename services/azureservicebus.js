@@ -67,7 +67,8 @@ const azureservicebus = {
                 deadLetterReason: message.deadLetterReason,
                 deadLetterErrorDescription: message.deadLetterErrorDescription,
                 enqueuedSequenceNumber: message.enqueuedSequenceNumber,
-                enqueuedTimeUtc: message.enqueuedTimeUtc
+                enqueuedTimeUtc: message.enqueuedTimeUtc,
+                applicationProperties: message.applicationProperties
             };
             return returnableMessage;            
         });
