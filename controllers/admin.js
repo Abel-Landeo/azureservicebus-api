@@ -38,7 +38,23 @@ const postEntities = async (req, res, next) => {
     }
 }
 
+const putEntities = async (req, res, next) => {
+    try {
+        let entityObj = req.body;
+        let updatedEntity = {};
+        if (req.query.subscription) {
+            updatedEntity = await servicebus.updateRule(req.query.subscription, entityObj);
+        } else {
+            updatedEntity = await servicebus.updateSubscription(entityObj);
+        }
+        res.status(200).json(updatedEntity);
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     getEntities,
-    postEntities
+    postEntities,
+    putEntities
 }

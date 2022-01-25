@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const { getEntities, postEntities } = require('../controllers/admin');
+const { getEntities, postEntities, putEntities } = require('../controllers/admin');
 
 router.route('/entities')
     .get(getEntities)
-    .post(postEntities);
+    .post(postEntities)
+    .put(putEntities);
 
 module.exports = router;

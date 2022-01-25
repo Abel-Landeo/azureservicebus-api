@@ -108,11 +108,23 @@ const azureservicebus = {
         return newSubscription;
     },
 
+    updateSubscription: async (subsObj) => {
+        const sbAdmin = new ServiceBusAdministrationClient(connectionString);
+        const updatedSubs = await sbAdmin.updateSubscription(subsObj);
+        return updatedSubs;
+    },
+
     createRule: async (subscription, name, options) => {
         options = options || {};
         const sbAdmin = new ServiceBusAdministrationClient(connectionString);
         const newRule = await sbAdmin.createRule(entityName, subscription, name);
         return newRule;
+    },
+
+    updateRule: async (subsName, ruleObj) => {
+        const sbAdmin = new ServiceBusAdministrationClient(connectionString);
+        const updatedRule = await sbAdmin.updateRule(entityName, subsName, ruleObj);
+        return updatedRule;
     }
 }
 

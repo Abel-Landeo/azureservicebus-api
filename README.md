@@ -77,3 +77,40 @@ Request body:
 }
 ```
 
+- `PUT /admin/entities`
+Update a specific entity (subscription, rule)
+
+For updating a subscription:
+
+Request body:
+```json
+{
+    "subscriptionName": "existing_subs_name",
+    "topicName": "existing_topic_name",
+    "lockDuration": "string duration in ISO8601",
+    "maxDeliveryCount": number,
+    "requiresSession": boolean,
+    "enableBatchedOperations": boolean,
+    "defaultMessageTimeToLive": "string duration in ISO8601",
+    "autoDeleteOnIdle": "string duration in ISO8601",
+    "deadLetteringOnMessageExpiration": boolean,
+    "deadLetteringOnFilterEvaluationExceptions": boolean,
+    "status": "string",
+    "availabilityStatus": "string"
+}
+```
+
+For updating a rule:
+
+Query param: "subscription"
+
+Request body:
+```json
+{
+    "name": "existing_rule_name",
+    "filter": {
+        "sqlExpression": "string sql expressions"
+    },
+    "action": {}
+}
+```
