@@ -27,10 +27,10 @@ const postEntities = async (req, res, next) => {
     try {
         let request = req.body;
         let createdEntity = {};
-        if (request.entityType === 'subscription') {
-            createdEntity = await servicebus.createSubscription(request.entityName, request.options);
-        } else if(request.entityType === 'rule') {
-            createdEntity = await servicebus.createRule(request.subscription, request.entityName, request.options );
+        if (request.rule) {
+            createdEntity = await servicebus.createRule(request.rule, request.subscription);
+        } else {
+            createdEntity = await servicebus.createSubscription(request.subscription);            
         }
         res.status(201).json(createdEntity);
     } catch (error) {

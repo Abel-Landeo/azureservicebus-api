@@ -70,10 +70,8 @@ Create a specific entity (subscription, rule)
 Request body:
 ```json
 {
-    "entityType": "subscription | rule",
-    "subscription": "<in case the entityType is rule>",
-    "entityName": "<name of the subscription or rule to be created>",
-    "options": {}
+    "subscription": "subscription to be created or subscription of the rule to be created>",
+    "rule": "rule to be created. If not present, the subscription will be created"    
 }
 ```
 

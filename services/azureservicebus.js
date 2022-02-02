@@ -101,10 +101,9 @@ const azureservicebus = {
         return result;
     },
 
-    createSubscription: async (name, options) => {
-        options = options || {};
+    createSubscription: async (subsName) => {
         const sbAdmin = new ServiceBusAdministrationClient(connectionString);
-        const newSubscription = await sbAdmin.createSubscription(entityName, name, options);
+        const newSubscription = await sbAdmin.createSubscription(entityName, subsName);
         return newSubscription;
     },
 
@@ -114,10 +113,9 @@ const azureservicebus = {
         return updatedSubs;
     },
 
-    createRule: async (subscription, name, options) => {
-        options = options || {};
+    createRule: async (ruleName, subsName) => {
         const sbAdmin = new ServiceBusAdministrationClient(connectionString);
-        const newRule = await sbAdmin.createRule(entityName, subscription, name);
+        const newRule = await sbAdmin.createRule(entityName, subsName, ruleName);
         return newRule;
     },
 
