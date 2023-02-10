@@ -74,6 +74,18 @@ const azureservicebus = {
         });
         return returnableMessages;
     },
+
+    namespaceProperties: async (isRuntime) => {
+        const sbAdmin = new ServiceBusAdministrationClient(connectionString);
+        let info;
+        if (isRuntime) {
+            info = await sbAdmin.getTopicRuntimeProperties(entityName);
+        } else {
+            info = await sbAdmin.getTopic(entityName);
+        }
+        
+        return info;
+    },
     
     listSubscriptions: async (options = {}) => {
         const sbAdmin = new ServiceBusAdministrationClient(connectionString);

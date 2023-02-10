@@ -57,6 +57,13 @@ Query params:
 "limit": <max to be fetched; if omitted, all messages will be fetched>
 ```
 
+- `GET /admin`
+-- retrieves the topic properties; config or runtime properties based on the runtime query param.
+Query params:
+```
+"runtime": <true | false>,
+```
+
 - `GET /admin/entities`
 Query params:
 ```

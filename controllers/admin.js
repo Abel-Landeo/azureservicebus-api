@@ -53,8 +53,21 @@ const putEntities = async (req, res, next) => {
     }
 }
 
+const get = async (req, res, next) => {
+    try {
+        let params = req.query;
+        params.runtime = params.runtime || "false";
+        let isRuntime = params.runtime.toLowerCase() === 'true';
+        const info = await servicebus.namespaceProperties(isRuntime);
+        res.json(info);        
+    } catch (error) {
+        next(error);        
+    }
+}
+
 module.exports = {
     getEntities,
     postEntities,
-    putEntities
+    putEntities,
+    get
 }
