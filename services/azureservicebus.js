@@ -75,11 +75,17 @@ const azureservicebus = {
         return returnableMessages;
     },
 
-    namespaceProperties: async (isRuntime) => {
+    topicProperties: async (isRuntime) => {
         const sbAdmin = new ServiceBusAdministrationClient(connectionString);
         let info;
         if (isRuntime) {
+            /** @type {import("@azure/service-bus").TopicRuntimeProperties} */
             info = await sbAdmin.getTopicRuntimeProperties(entityName);
+            if (info.sizeInBytes) {
+                let sizeInMegaBytes = info.sizeInBytes / (1024 * 1024);
+                info.sizeInMegaBytes = sizeInMegaBytes;
+            }
+
         } else {
             info = await sbAdmin.getTopic(entityName);
         }

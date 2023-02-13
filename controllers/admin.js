@@ -58,7 +58,7 @@ const get = async (req, res, next) => {
         let params = req.query;
         params.runtime = params.runtime || "false";
         let isRuntime = params.runtime.toLowerCase() === 'true';
-        const info = await servicebus.namespaceProperties(isRuntime);
+        const info = await servicebus.topicProperties(isRuntime);
         res.json(info);        
     } catch (error) {
         next(error);        
