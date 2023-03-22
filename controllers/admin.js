@@ -53,6 +53,30 @@ const putEntities = async (req, res, next) => {
     }
 }
 
+/**
+ * @param {import('express').Request} req 
+ * @param {import('express').Response} res 
+ * @param {import('express').NextFunction} next 
+ */
+const deleteEntities = async (req, res, next) => {
+    try {
+        let params = req.query;
+        
+        if (params.subscription) {
+            await servicebus.deleteSubscription(params.subscription);
+            res.sendStatus(200);
+            return;
+        }
+        res.status(400).json({
+            message: "Query param subscription not set"
+        });
+                
+    } catch (error) {
+        next(error);
+    }
+    
+}
+
 const get = async (req, res, next) => {
     try {
         let params = req.query;
@@ -69,5 +93,6 @@ module.exports = {
     getEntities,
     postEntities,
     putEntities,
+    deleteEntities,
     get
 }

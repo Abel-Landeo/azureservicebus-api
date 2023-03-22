@@ -131,6 +131,11 @@ const azureservicebus = {
         return updatedSubs;
     },
 
+    deleteSubscription: async (subsName) => {
+        const sbAdmin = new ServiceBusAdministrationClient(connectionString);
+        await sbAdmin.deleteSubscription(entityName, subsName);
+    },
+
     createRule: async (ruleName, subsName) => {
         const sbAdmin = new ServiceBusAdministrationClient(connectionString);
         const newRule = await sbAdmin.createRule(entityName, subsName, ruleName);

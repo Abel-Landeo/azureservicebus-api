@@ -119,3 +119,9 @@ Request body:
     "action": {}
 }
 ```
+
+- `DELETE /admin/entities`
+Query params:
+```
+"subscription": "<name of the subscription to be removed>"
+```

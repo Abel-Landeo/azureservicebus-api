@@ -5,13 +5,15 @@ const {
     getEntities, 
     postEntities, 
     putEntities,
+    deleteEntities,
     get 
 } = require('../controllers/admin');
 
 router.route('/entities')
     .get(getEntities)
     .post(postEntities)
-    .put(putEntities);
+    .put(putEntities)
+    .delete(deleteEntities);
 
 router.route('/')
     .get(get);
