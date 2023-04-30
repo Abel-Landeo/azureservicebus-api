@@ -14,7 +14,7 @@ The objective of this tool is to expose an API for managing the azure servicebus
 ### Docker
 - Clone and cd the repo
 - run "docker build --tag <yourimagename>:<yourimageversion> ."
-- run "docker run --env SERVICEBUS_CONNECTION_STRING=<your_azure_servicebus_connection> --env SERVICEBUS_ENTITY_NAME=<your_azure_servicebus_entityname> --env APP_PORT=<default_is_4500> --publish <hostPort>:<containerPort> <yourimagename>:<yourimageversion>
+- run "docker run --env SERVICEBUS_CONNECTION_STRING=<your_azure_servicebus_connection> --env SERVICEBUS_ENTITY_NAME=<your_azure_servicebus_entityname> --env APP_PORT=<default_is_4500> --publish <hostPort>:<containerPort> <yourimagename>:<yourimageversion>"
 
 ## API interface
 
