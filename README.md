@@ -4,6 +4,18 @@
 
 The objective of this tool is to expose an API for managing the azure servicebus functionalities such as publishing a message, peeking messages from queues, topic subscriptions, or secondary queues such as DeadLetter queues, listing queues or topics, listing subscriptions of a specific topic, among other features.
 
+## Instalation
+### Locally
+- Clone and cd the repo
+- run "npm install"
+- Set the following env variables: APP_PORT, SERVICEBUS_CONNECTION_STRING and SERVICEBUS_ENTITY_NAME
+- Run "node app.js"
+
+### Docker
+- Clone and cd the repo
+- run "docker build --tag <yourimagename>:<yourimageversion> ."
+- run "docker run --env SERVICEBUS_CONNECTION_STRING=<your_azure_servicebus_connection> --env SERVICEBUS_ENTITY_NAME=<your_azure_servicebus_entityname> --env APP_PORT=<default_is_4500> --publish <hostPort>:<containerPort> <yourimagename>:<yourimageversion>
+
 ## API interface
 
 The base API rest is `/servicebus/v1/`
